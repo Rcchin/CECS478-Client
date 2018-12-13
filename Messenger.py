@@ -9,7 +9,8 @@ import os
 import sys
 import requests
 import json
-#
+
+
 #from EncryptDecrypt import encryption
 #from EncryptDecrypt import decryption
 #from EncryptDecrypt import RSAKeyGen
@@ -68,11 +69,9 @@ def register():
         
 def messenger(token):
     print("Welcome to Game of Thread's messenging app")
-    choice = input("Please enter a number for your choice:\n1. Friends\n2. Read\n3. Send\n4. Quit\n")
+    choice = input("Please enter a number for your choice:\n1. Read\n2. Send\n3. Quit\n")
     tokenparam = {'token': token}
     if(choice == "1"):
-        friends()
-    if(choice == "2"):
         requestMessage = requests.get(url = "https://raychin.me/api/message", params = tokenparam)
         data = requestMessage.json()
         privateKlocation = input("Please enter your private key file name:(Default private.pem)")
@@ -97,7 +96,7 @@ def messenger(token):
             except:
                 print(": Failed to decrypt message sent by " + sendervar)
         print("\n")
-    if(choice == "3"):
+    if(choice == "2"):
         receiver = input("Who do you want to send a message to? \n")
         text = input("Please enter your message:")
         #Encrypt our message
@@ -111,15 +110,10 @@ def messenger(token):
         RSACipher,ciphertext,tag,IV = EncryptDecrypt.encryption(text,publicKey)
         payload = {'receiver': receiver, 'text': ciphertext, 'RSACipher': RSACipher, 'tag': tag, 'IV': IV}
         requestMessage = requests.post(url = "https://raychin.me/api/message", params = tokenparam, data = payload)
-    if(choice == "4"):
+    if(choice == "3"):
         sys.exit(0)
         
     messenger(token)    
     return
-    
-def friends():
-    choice = input("Please enter a number for your choice:\n1. Add\n2. Edit\n3. Delete\n4. Return to Messenger\n")
-    if(choice == "1"):
-      
-        return
+
 main()

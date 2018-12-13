@@ -39,13 +39,25 @@ def encryption(plaintext,publicKey):
     padder = padding.PKCS7(128).padder()
     plaintext = plaintext.encode('utf-8')
     plaintext = padder.update(plaintext)+padder.finalize()
+    
+   
+    
+    
     ##encrpyt plaintext with AES
     ciphertext = encryptor.encrypt(plaintext)
     #test to make sure AES works
     #return (ciphertext, IV)
+    
     #creating HMAC key 
     secret = os.urandom(32)
-
+    
+#    h = HMAC.new(secret)
+#    h.update(ciphertext)
+#    #get tag to return
+#    ##
+#    tag = h.hexdigest()
+    
+    
     h = hmac.HMAC(secret, hashes.SHA256(), backend=default_backend())
     h.update(ciphertext)
     #get tag to return
