@@ -19,23 +19,17 @@ import random
 import os
 import json
 from Crypto.Hash import HMAC, SHA256
-#code is ran below afer modules
+
 
 def encryption(plaintext,publicKey):
-    #letters to be used for aes
-    letters = "abcdefghijklmnopqrstuvwxyz"
+   
     # Initializes the iv and creates aesKey
-    ##
     key = os.urandom(32)
     IV = 16 * '\x00'
     mode = AES.MODE_CBC
     encryptor = AES.new(key, mode, IV=IV)
     
     #need padding because IV only works for code in multiples of 16
-#    paddingAES = random.choice(letters)
-#    extra = len(plaintext) % 16
-#    if extra > 0:
-#        plaintext = plaintext + (paddingAES * (16 - extra))
     padder = padding.PKCS7(128).padder()
     plaintext = plaintext.encode('utf-8')
     plaintext = padder.update(plaintext)+padder.finalize()
@@ -45,18 +39,9 @@ def encryption(plaintext,publicKey):
     
     ##encrpyt plaintext with AES
     ciphertext = encryptor.encrypt(plaintext)
-    #test to make sure AES works
-    #return (ciphertext, IV)
     
     #creating HMAC key 
     secret = os.urandom(32)
-    
-#    h = HMAC.new(secret)
-#    h.update(ciphertext)
-#    #get tag to return
-#    ##
-#    tag = h.hexdigest()
-    
     
     h = hmac.HMAC(secret, hashes.SHA256(), backend=default_backend())
     h.update(ciphertext)
@@ -65,7 +50,6 @@ def encryption(plaintext,publicKey):
     
     #holds aes and hmac key
     combinedKey = key + secret
-    
     
     #Encrypt using concatenated keys using RSA
     cipher_rsa = PKCS1_OAEP.new(publicKey)
@@ -78,7 +62,7 @@ def decryption(RSAC, ct, tg, IV, pathtoPrivate):
     RSACipher = b64decode(RSAC)
     ciphertext = b64decode(ct)
     tag = b64decode(tg)
-    #IV = getJSON('./Encryption.json').get('IV',[])
+ 
     #Decrypt RSA combined'
     cipher_rsa = PKCS1_OAEP.new(pathtoPrivate)
     combinedKey = cipher_rsa.decrypt(RSACipher)
@@ -140,56 +124,4 @@ def writeToJSONFile(path, fileName, data):
 def getJSON(filePathAndName):
     with open(filePathAndName, 'r') as fp:
         return json.load(fp)
-############################################################################
-#where the modules are being called
-    
-##plaintext = input("Please enter message string to encrypt: ")
 
-#generates rsa keys
-##RSAKeyGen("private.pem","public.pem")
-#f = open("public.pem","r")
-#publicKey = RSA.importKey(f.read())
-#print(publicKey)
-
-#holds private key 
-#f = open("private.pem","r")
-#privateKey = RSA.importKey(f.read())
-
-#to test encryption
-#print(encryption(plaintext)
-
-#RSACipher,ciphertext,tag,IV = encryption(plaintext)
-
-#decryption(privateKey)
-
-
-
-#key = RSA.generate(2048)
-#f = open('mykey.pem','w')
-#f.write(RSA.exportKey('PEM'))
-#f.close()
-#
-#f = open('mykey.pem','r')
-#key = RSA.importKey(f.read())
-
-
-
-#def Encrypt():
-#    message = input("Please enter message string to encrypt: ")
-#    print(message)
-#    
-#    message.bs = 16
-#    message.key = hashlib.sha256(key.encode()).digest()
-#    
-#    message = message._pad(message)
-#    iv = Random.new().read(AES.block_size)
-#    cipher = AES.new(message.key, AES.MODE_CBC,iv)
-#    base64.b64encode(iv+cipher)
-#    
-#    
-#    
-#    
-#    
-#    
-#    
-#Encrypt()
