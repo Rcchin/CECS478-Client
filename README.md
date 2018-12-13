@@ -15,7 +15,7 @@ For this code you must have both files in the same directory. Also this code won
 
 ## End to End Chat
 
-Built this project from multiple steps. Ultimate goal is to create a end to end encrption chat. Therefore even the server is an adversary. 
+Built this project from multiple steps. Ultimate goal is to create a end to end encrption chat. Therefore even the server is an adversary. However was not able to implement 
 
 ### Client Side
 Our UI is very basic. It can be run from command line or from your favorite IDE. We created this mostly on Spyder. But here we focused mainly on being able to encrypt and decrypt messages using client server code. GET and POST requests are made to the RESTful API to exchange these encrypted messages to then later be decrypted on receivers end. However our way of exchanging Private and Public Keys is cumbersome to users as it must be physcial. Must look for better alternatives in the future.
